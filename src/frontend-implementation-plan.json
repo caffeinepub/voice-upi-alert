@@ -1,0 +1,186 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Voice UPI Alert — Frontend (UI, offline parsing, browser TTS, and UPI coffee link)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Build a simple home screen showing total received today, last 5 transactions, a large Voice ON/OFF toggle, dark mode support, and large readable typography.",
+      "acceptanceCriteria": [
+        "Home screen shows “Total received today” and a list of exactly the 5 most recent transactions (or fewer if <5).",
+        "A prominent toggle switches Voice ON/OFF and the UI reflects the current state.",
+        "Dark mode can be enabled and all text remains readable with sufficient contrast.",
+        "Typography is visibly large and consistent across the app."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the main app shell that renders the Home screen after acknowledgment, and wires in persistent UI state (voice on/off, dark mode, transactions) with large, readable layout/typography using Tailwind. Use selected component: core-infrastructure to remain compatible with the template’s app entry wiring. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "create",
+          "description": "Implement the Home screen UI: total received today calculation, last 5 transactions list (most recent first), prominent Voice ON/OFF toggle, and bottom section area reserved for the coffee button. Ensure English-only labels and large typography. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useLocalStorageState.ts",
+          "operation": "create",
+          "description": "Add a small hook to persist and hydrate UI state (voice enabled, dark mode preference, acknowledgment flag, stored transactions) via localStorage. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add global Tailwind/shadcn-style CSS variables and base styles to ensure large, consistent typography, readable spacing, and dark mode support via the 'dark' class. Keep contrast accessible. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add a web-appropriate permission/explanation screen requiring acknowledgment before the user can access the home screen, and persist acknowledgment across reloads.",
+      "acceptanceCriteria": [
+        "On first load, users see an explanation screen before they can access the home screen.",
+        "The explanation text is in English and explicitly states SMS/notification reading is not available in the web app build.",
+        "After acknowledgment, users are routed to the home screen; acknowledgment persists across reloads."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/screens/PermissionExplanationScreen.tsx",
+          "operation": "create",
+          "description": "Create the pre-home explanation screen describing that Android SMS/notification access is not available in this web prototype, and require an explicit acknowledgment button in English before continuing. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the PermissionExplanationScreen into the app so it is shown on first load until acknowledged; persist acknowledgment using the localStorage hook and render Home screen only after acknowledgment. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useLocalStorageState.ts",
+          "operation": "modify",
+          "description": "Add/confirm support for an 'acknowledged' boolean flag persisted across reloads for the permission/explanation gating behavior. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Allow users to paste/import text to create transactions using offline parsing that detects credit transactions only and extracts INR amount, sender (if available), timestamp, and source label via heuristics; store transactions locally in app state.",
+      "acceptanceCriteria": [
+        "Users can paste a message/notification text and submit it to create a transaction entry.",
+        "Only messages classified as “credit/success” create transactions; debits/failures are ignored.",
+        "Each created transaction includes amount (number), source label, and a timestamp (fallback to current time if none can be parsed).",
+        "Provide (in code comments or a small “Parsing help” UI section) sample regex patterns for INR amount detection that match forms like “₹200”, “Rs. 200.00”, and “INR 1,250”."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/transactionParsing.ts",
+          "operation": "create",
+          "description": "Implement offline parsing utilities and heuristics: classify credit/success vs debit/failure, extract INR amount, optional sender, optional date/time, and assign a source label (e.g., GPay/PhonePe/Paytm/Amazon Pay/Bank SMS) based on text clues. Include code comments with sample INR amount regex patterns for “₹200”, “Rs. 200.00”, and “INR 1,250”. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "modify",
+          "description": "Add a manual input area (paste/import text) and submit action that runs the offline parser; only add a transaction to locally-stored state when classified as credit/success; show a small “Parsing help” section referencing the INR amount formats supported. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/types/transactions.ts",
+          "operation": "create",
+          "description": "Define TypeScript types for locally-stored transactions (amount in INR as number, optional sender, timestamp, source label, raw text for debugging if desired) used across parsing, UI, and persistence. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure the transactions collection is held in app state and persisted locally (no network upload), and pass required handlers/state into HomeScreen. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Use browser-native SpeechSynthesis to announce a new credit transaction when Voice is ON, and provide a UI control to test speech output.",
+      "acceptanceCriteria": [
+        "When Voice is ON, adding a new transaction triggers a spoken announcement.",
+        "When Voice is OFF, no speech occurs.",
+        "A UI control exists to play a test announcement without adding a transaction.",
+        "All user-facing text for the announcement and controls is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/tts.ts",
+          "operation": "create",
+          "description": "Add a small SpeechSynthesis helper to speak an English announcement string, handle basic availability checks, and avoid speaking when disabled. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "modify",
+          "description": "Trigger speech when a new credit transaction is added and Voice is ON (e.g., on successful parse+add). Add a “Test voice” control that plays an English sample announcement without adding a transaction. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure voice-enabled state is persisted and provided to HomeScreen so the UI reflects Voice ON/OFF and governs whether announcements occur. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add a “Buy Me a Coffee ☕” button at the bottom of the home screen that opens a UPI payment intent link containing the provided UPI ID taranseetharaman273@oksbi.",
+      "acceptanceCriteria": [
+        "Home screen shows a “Buy Me a Coffee ☕” button fixed at the bottom or clearly placed at the bottom of the content.",
+        "Clicking the button opens a UPI intent/payment link containing the UPI ID taranseetharaman273@oksbi.",
+        "No ads and no login prompts are introduced."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "modify",
+          "description": "Add a bottom-placed “Buy Me a Coffee ☕” button that opens a UPI intent/payment link containing the exact UPI ID taranseetharaman273@oksbi (no alterations). Keep UI ad-free and do not introduce login prompts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/upi.ts",
+          "operation": "create",
+          "description": "Add a small utility to build/validate the UPI payment intent URL string (ensuring the UPI ID is preserved exactly) used by the coffee button. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Create and apply a cohesive clean minimal theme (not blue/purple) consistently across screens (layout, spacing, typography, component styling).",
+      "acceptanceCriteria": [
+        "A single cohesive theme is used across all screens.",
+        "Theme avoids a blue/purple primary palette unless explicitly necessary for contrast/accessibility.",
+        "UI remains simple, modern, and uncluttered."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Define/update the global design tokens (CSS variables) and base typography scale to establish a cohesive theme with a non-blue/purple primary palette (while maintaining contrast), and ensure dark mode styling is consistent. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme extensions only as needed to support the chosen non-blue/purple theme tokens and consistent typography sizing while keeping the UI minimal. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Wire generated brand assets into the document (e.g., favicon/app icon references) and keep the app title consistent with “Voice UPI Alert”. Reference frontend/public/assets/generated/app-icon.dim_512x512.png where appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "modify",
+          "description": "Display the generated wordmark logo in the Home screen header area for cohesive branding using frontend/public/assets/generated/logo.dim_1200x300.png, while keeping layout minimal. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/public/assets/generated/app-icon.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated minimal monochrome app icon asset at this exact path and filename so it can be referenced by the UI/document. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/public/assets/generated/logo.dim_1200x300.png",
+          "operation": "create",
+          "description": "Add the generated “Voice UPI Alert” wordmark logo asset at this exact path and filename so it can be referenced by the UI. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

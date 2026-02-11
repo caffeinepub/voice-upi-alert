@@ -1,0 +1,139 @@
+{
+  "kind": "build_request",
+  "title": "Voice UPI Alert (Web Prototype on Internet Computer) — UI, parsing, TTS, and Buy Me a Coffee",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement a simple, modern home screen UI for “Voice UPI Alert” with: (1) total money received today, (2) last 5 transactions list, (3) a large Voice ON/OFF toggle, (4) dark mode support, and (5) large readable typography.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "UI (SUPER SIMPLE & MODERN)\n- Home screen:\n  • Total money received today\n  • Last 5 transactions list\n- Big toggle button:\n  • Voice ON / OFF\n- Dark mode support\n- Large readable fonts"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Home screen shows “Total received today” and a list of exactly the 5 most recent transactions (or fewer if <5).",
+        "A prominent toggle switches Voice ON/OFF and the UI reflects the current state.",
+        "Dark mode can be enabled and all text remains readable with sufficient contrast.",
+        "Typography is visibly large and consistent across the app."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add a permissions/explanation-style screen (web-appropriate) that clearly explains what would be needed for SMS and notification detection on Android, and that this web build cannot request SMS/notification access; require the user to acknowledge before proceeding to the home screen.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Show permission explanation screen before enabling SMS & notification access."
+        ]
+      },
+      "acceptanceCriteria": [
+        "On first load, users see an explanation screen before they can access the home screen.",
+        "The explanation text is in English and explicitly states SMS/notification reading is not available in the web app build.",
+        "After acknowledgment, users are routed to the home screen; acknowledgment persists across reloads."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement transaction capture via manual input (paste/import text) and offline parsing logic to detect *credit* transactions and extract: amount in INR, sender name (when available), date/time (when available), and source label (e.g., “GPay”, “PhonePe”, “Paytm”, “Amazon Pay”, “Bank SMS”) based on heuristics; store parsed transactions locally in the app state.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "PAYMENT DETECTION\n- Detect credit transactions only.\n- Correctly extract:\n  • Amount (₹)\n  • Sender name (if available)\n  • Date & time\n  • App name (GPay / PhonePe / Bank SMS)\n\nGenerate:\n- Sample regex for detecting ₹ amounts"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can paste a message/notification text and submit it to create a transaction entry.",
+        "Only messages classified as “credit/success” create transactions; debits/failures are ignored.",
+        "Each created transaction includes amount (number), source label, and a timestamp (fallback to current time if none can be parsed).",
+        "Provide (in code comments or a small “Parsing help” UI section) sample regex patterns for INR amount detection that match forms like “₹200”, “Rs. 200.00”, and “INR 1,250”."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement voice announcement using browser-native Text-To-Speech (SpeechSynthesis) when a new credit transaction is added and Voice is ON, with an English announcement like: “Money credited. Rupees 200 received in your account.” Provide a way to test the voice output from the UI.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "VOICE ANNOUNCEMENT\n- Automatically speak when money is credited.\n- Example voice:\n  “Money credited. Rupees 200 received in your account.”\n- Use Android Text-To-Speech (TTS) only (FREE)."
+        ]
+      },
+      "acceptanceCriteria": [
+        "When Voice is ON, adding a new transaction triggers a spoken announcement.",
+        "When Voice is OFF, no speech occurs.",
+        "A UI control exists to play a test announcement without adding a transaction.",
+        "All user-facing text for the announcement and controls is in English."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add a “Buy Me a Coffee ☕” button at the bottom of the home screen that opens a UPI payment intent URL using the provided UPI ID: taranseetharaman273@oksbi.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Add a “Buy Me a Coffee ☕” button.\n- Opens UPI intent with my UPI ID.\n...\nmy upi id taranseetharaman273@oksbi to payment,app must be ready to run ... then show in down its self buy me a coffee"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Home screen shows a “Buy Me a Coffee ☕” button fixed at the bottom or clearly placed at the bottom of the content.",
+        "Clicking the button opens a UPI intent/payment link containing the UPI ID taranseetharaman273@oksbi.",
+        "No ads and no login prompts are introduced."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Create a coherent, clean visual theme (not blue/purple) and apply it consistently across the app (layout, spacing, typography, component styling) while keeping the UI minimal and modern.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Create an Android app (FREE, no paid SDKs) with a clean modern UI."
+        ]
+      },
+      "acceptanceCriteria": [
+        "A single cohesive theme is used across all screens.",
+        "Theme avoids a blue/purple primary palette unless explicitly necessary for contrast/accessibility.",
+        "UI remains simple, modern, and uncluttered."
+      ]
+    }
+  ],
+  "constraints": [
+    "Must use the existing Caffeine Internet Computer template stack (React + TypeScript + Tailwind + React Query; Motoko single-actor backend).",
+    "Do not edit files under frontend/src/components/ui or any path listed as immutable in SYSTEM_CONTEXT.",
+    "This project cannot produce a native Android APK; Android SMS/notification permissions, notification listeners, background services, and Android Text-To-Speech APIs are not available in this web/IC environment.",
+    "All processing must remain offline in the client for this prototype (no uploading user message content to any server).",
+    "Use English for any user-facing text.",
+    "Preserve the provided UPI ID exactly: taranseetharaman273@oksbi."
+  ],
+  "nonGoals": [
+    "Native Android implementation (Android Studio project, APK build, Android 10+ device services).",
+    "Reading real SMS inbox, receiving SMS broadcasts, or using a NotificationListenerService.",
+    "Guaranteeing voice announcements when the device screen is off (web apps cannot reliably run/speak in the background).",
+    "Using Firebase or any paid SDKs/APIs."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal app icon with a microphone and rupee symbol in a clean monochrome style (app-icon.dim_512x512.png)",
+      "Simple wordmark logo reading “Voice UPI Alert” in a modern sans-serif style (logo.dim_1200x300.png)"
+    ],
+    "edits": []
+  }
+}

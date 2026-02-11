@@ -1,0 +1,127 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-a-simple-modern-home-screen-ui-for-voice-upi-alert-with-1-total-money-received-today-2-last-5-transactions-list-3-a-large-voice-on-off-toggle-4-dark-mode-support-and-5-large-readable-typography",
+      "featureTitle": "Implement a simple, modern home screen UI for “Voice UPI Alert” with: (1) total money received today, (2) last 5 transactions list, (3) a large Voice ON/OFF toggle, (4) dark mode support, and (5) large readable typography.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useLocalStorageState.ts",
+        "frontend/src/index.css",
+        "frontend/src/screens/HomeScreen.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-permissions-explanation-style-screen-web-appropriate-that-clearly-explains-what-would-be-needed-for-sms-and-notification-detection-on-android-and-that-this-web-build-cannot-request-sms-notification-access-require-the-user-to-acknowledge-before-proceeding-to-the-home-screen",
+      "featureTitle": "Add a permissions/explanation-style screen (web-appropriate) that clearly explains what would be needed for SMS and notification detection on Android, and that this web build cannot request SMS/notification access; require the user to acknowledge before proceeding to the home screen.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useLocalStorageState.ts",
+        "frontend/src/screens/PermissionExplanationScreen.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-transaction-capture-via-manual-input-paste-import-text-and-offline-parsing-logic-to-detect-credit-transactions-and-extract-amount-in-inr-sender-name-when-available-date-time-when-available-and-source-label-e-g-gpay-phonepe-paytm-amazon-pay-bank-sms-based-on-heuristics-store-parsed-transactions-locally-in-the-app-state",
+      "featureTitle": "Implement transaction capture via manual input (paste/import text) and offline parsing logic to detect *credit* transactions and extract: amount in INR, sender name (when available), date/time (when available), and source label (e.g., “GPay”, “PhonePe”, “Paytm”, “Amazon Pay”, “Bank SMS”) based on heuristics; store parsed transactions locally in the app state.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/screens/HomeScreen.tsx",
+        "frontend/src/types/transactions.ts",
+        "frontend/src/utils/transactionParsing.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-voice-announcement-using-browser-native-text-to-speech-speechsynthesis-when-a-new-credit-transaction-is-added-and-voice-is-on-with-an-english-announcement-like-money-credited-rupees-200-received-in-your-account-provide-a-way-to-test-the-voice-output-from-the-ui",
+      "featureTitle": "Implement voice announcement using browser-native Text-To-Speech (SpeechSynthesis) when a new credit transaction is added and Voice is ON, with an English announcement like: “Money credited. Rupees 200 received in your account.” Provide a way to test the voice output from the UI.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/screens/HomeScreen.tsx",
+        "frontend/src/utils/tts.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-buy-me-a-coffee-button-at-the-bottom-of-the-home-screen-that-opens-a-upi-payment-intent-url-using-the-provided-upi-id-taranseetharaman273-oksbi",
+      "featureTitle": "Add a “Buy Me a Coffee ☕” button at the bottom of the home screen that opens a UPI payment intent URL using the provided UPI ID: taranseetharaman273@oksbi.",
+      "files": [
+        "frontend/src/screens/HomeScreen.tsx",
+        "frontend/src/utils/upi.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-clean-visual-theme-not-blue-purple-and-apply-it-consistently-across-the-app-layout-spacing-typography-component-styling-while-keeping-the-ui-minimal-and-modern",
+      "featureTitle": "Create a coherent, clean visual theme (not blue/purple) and apply it consistently across the app (layout, spacing, typography, component styling) while keeping the UI minimal and modern.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/index.css",
+        "frontend/src/screens/HomeScreen.tsx",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

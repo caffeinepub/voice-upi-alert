@@ -1,0 +1,66 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-11T16:15:34.455Z",
+  "summary": "Most core frontend requirements (home UI with totals + last 5, voice toggle + TTS + test button, manual paste/parse credit-only, permission explanation gate with persisted acknowledgment, Buy Me a Coffee UPI intent, dark mode + large typography + non-blue/purple theme) appear implemented. However, the required image assets are only referenced, not shown as added in the diff. The diff also introduces Internet Identity/auth and actor hooks that were not requested.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Minimal app icon with microphone and rupee symbol (app-icon.dim_512x512.png) and wordmark logo “Voice UPI Alert” (logo.dim_1200x300.png) included in the project.",
+      "reason": "The UI references these assets, but the diff summary does not show the image files being added, only HTML/TSX references to paths under /assets/generated/.",
+      "evidence": [
+        "frontend/index.html (references /assets/generated/app-icon.dim_512x512.png)",
+        "frontend/src/screens/HomeScreen.tsx (references /assets/generated/logo.dim_1200x300.png)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Internet Identity authentication provider and related hooks (login/identity management).",
+      "reason": "BuildRequest does not ask for authentication/login; also REQ-5 AC says no login prompts are introduced, and adding II is an unrequested capability.",
+      "evidence": [
+        "frontend/src/main.tsx (wraps app with InternetIdentityProvider)",
+        "frontend/src/hooks/useInternetIdentity.ts"
+      ]
+    },
+    {
+      "description": "Actor creation hook and React Query actor invalidation plumbing.",
+      "reason": "BuildRequest does not request backend calls/actors; backend has no methods and requirements state all processing stays client-side for this prototype.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo (actor {} no methods)"
+      ]
+    },
+    {
+      "description": "UPI payment fallback alert popup after attempting to open the UPI intent.",
+      "reason": "REQ-5 only specifies opening a UPI intent/payment link; the additional alert-based fallback UI is extra behavior not requested (though it may be harmless).",
+      "evidence": [
+        "frontend/src/utils/upi.ts (setTimeout + alert fallback)"
+      ]
+    }
+  ],
+  "confidence": 0.64,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useLocalStorageState.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/screens/HomeScreen.tsx",
+    "frontend/src/screens/PermissionExplanationScreen.tsx",
+    "frontend/src/types/transactions.ts",
+    "frontend/src/utils/transactionParsing.ts",
+    "frontend/src/utils/tts.ts",
+    "frontend/src/utils/upi.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

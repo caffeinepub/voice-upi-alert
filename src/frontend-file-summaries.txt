@@ -1,0 +1,14 @@
+{
+  "frontend/src/App.tsx": "Main app component that manages global state (acknowledgment, voice toggle, transactions) and conditionally renders either the permission explanation screen or home screen with ThemeProvider wrapper.",
+  "frontend/src/screens/PermissionExplanationScreen.tsx": "Full-screen permission explanation component that describes Android SMS/notification features, privacy guarantees, and requires user acknowledgment before accessing the app.",
+  "frontend/src/screens/HomeScreen.tsx": "Complete home screen with voice toggle, today's total display, transaction list (last 5), manual transaction input with parsing, test voice button, dark mode toggle, and Buy Me a Coffee UPI button.",
+  "frontend/src/types/transactions.ts": "TypeScript type definitions for Transaction and ParsedTransaction objects used throughout the app.",
+  "frontend/src/utils/transactionParsing.ts": "Offline transaction message parser that detects credit transactions, extracts INR amounts (₹200, Rs. 200.00, INR 1,250), sender names, timestamps, and source labels using regex patterns and heuristics.",
+  "frontend/src/utils/tts.ts": "Browser Text-to-Speech utilities using SpeechSynthesis API for voice announcements with English-India locale.",
+  "frontend/src/utils/upi.ts": "UPI payment utility that opens UPI intent URL with the exact UPI ID taranseetharaman273@oksbi for the Buy Me a Coffee feature.",
+  "frontend/src/hooks/useLocalStorageState.ts": "Custom React hook for persisting and hydrating state in localStorage with JSON serialization and error handling.",
+  "frontend/src/index.css": "Global styles with OKLCH color system featuring a warm green primary palette (money/success theme) and amber accents, large readable typography, and smooth transitions for both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended theme tokens matching the green/amber color system, Inter font family, and custom border radius values.",
+  "frontend/index.html": "HTML entry point with app metadata, favicon references to generated app icon, and proper semantic structure.",
+  "frontend/src/hooks/useQueries.ts": "Placeholder file for React Query hooks (empty as backend has no methods; all state is client-side)."
+}

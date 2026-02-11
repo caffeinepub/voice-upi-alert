@@ -1,0 +1,22 @@
+{
+  "backend/main.mo": "Empty Motoko actor with no methods defined.",
+  "feature_evidence.json": "JSON report mapping implemented features to associated source files, components, and test IDs.",
+  "frontend-file-summaries.txt": "Prewritten summaries describing the purpose of each frontend file in the project.",
+  "frontend/index.css": "Global Tailwind base and theme variable overrides configuring colors and dark mode.",
+  "frontend/index.html": "HTML entry point that loads the React app and includes metadata and icons.",
+  "frontend/src/App.tsx": "Main React component that loads persisted state and switches between permission and home screens.",
+  "frontend/src/hooks/useActor.ts": "Hook that creates and manages a backend actor instance tied to Internet Identity authentication.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Comprehensive Internet Identity provider and hook handling login, stored identity loading, and auth state.",
+  "frontend/src/hooks/useLocalStorageState.ts": "Custom hook that persists React state to localStorage with JSON serialization.",
+  "frontend/src/hooks/useQueries.ts": "Placeholder file exporting nothing since backend queries are unused.",
+  "frontend/src/index.css": "Tailwind-based global styling with green/amber theme, dark mode, and large readable typography.",
+  "frontend/src/main.tsx": "React entry initializing QueryClient, InternetIdentityProvider, and rendering the App component.",
+  "frontend/src/screens/HomeScreen.tsx": "Main UI for entering and parsing transaction messages, toggling voice, showing today's total and recent transactions, and triggering TTS or UPI payment actions.",
+  "frontend/src/screens/PermissionExplanationScreen.tsx": "Explains unavailable SMS/notification permissions in the web prototype and shows privacy details before allowing the user to proceed.",
+  "frontend/src/types/transactions.ts": "Defines Transaction and ParsedTransaction TypeScript interfaces used throughout the app.",
+  "frontend/src/utils/transactionParsing.ts": "Parses text messages to detect credit transactions, extracting amount, sender, timestamp, and source with regex and keyword checks.",
+  "frontend/src/utils/tts.ts": "Provides browser SpeechSynthesis helpers for speaking messages, testing voice, and stopping ongoing speech.",
+  "frontend/src/utils/upi.ts": "Builds and opens a UPI payment intent URL and shows a fallback alert with the UPI ID if launching fails.",
+  "frontend/tailwind.config.js": "Tailwind CSS configuration with custom colors, animations, breakpoints, and plugins for typography, container queries, and animations.",
+  "project_state.json": "Holds project metadata including app goals, architecture notes, features, and required assets for Voice UPI Alert."
+}

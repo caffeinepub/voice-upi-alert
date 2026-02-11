@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Android app “Voice UPI Alert” (Android 10+) that detects credited UPI/bank transactions from SMS and notifications, announces via offline Android TTS (works with screen off), shows a simple modern UI with totals and recent transactions, deduplicates events, and includes a Buy Me a Coffee UPI intent button; no paid SDKs/Firebase/servers.",
+  "architectural_notes": [
+    "Use Android NotificationListenerService for UPI app notifications and SMS receiver/Telephony APIs for SMS (with runtime permissions and default SMS app constraints considered).",
+    "Implement offline parsing/deduplication layer: normalize events from SMS/notifications and suppress duplicates within a time/amount window.",
+    "Use Android TTS for announcements; run via foreground service/background-friendly approach to ensure speaking works with screen off (Android 10+).",
+    "Store transactions locally on-device only (e.g., Room DB) to compute “today total” and show last 5 transactions.",
+    "Implement UPI deep link/intent for “Buy Me a Coffee” with provided UPI ID and prefilled note/amount optional."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal app icon with a microphone and rupee symbol in a clean monochrome style (app-icon.dim_512x512.png)\n- Simple wordmark logo reading “Voice UPI Alert” in a modern sans-serif style (logo.dim_1200x300.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-a-simple-modern-home-screen-ui-for-voice-upi-alert-with-1-total-money-received-today-2-last-5-transactions-list-3-a-large-voice-on-off-toggle-4-dark-mode-support-and-5-large-readable-typography",
+      "title": "Implement a simple, modern home screen UI for “Voice UPI Alert” with: (1) total money received today, (2) last 5 transactions list, (3) a large Voice ON/OFF toggle, (4) dark mode support, and (5) large readable typography.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-permissions-explanation-style-screen-web-appropriate-that-clearly-explains-what-would-be-needed-for-sms-and-notification-detection-on-android-and-that-this-web-build-cannot-request-sms-notification-access-require-the-user-to-acknowledge-before-proceeding-to-the-home-screen",
+      "title": "Add a permissions/explanation-style screen (web-appropriate) that clearly explains what would be needed for SMS and notification detection on Android, and that this web build cannot request SMS/notification access; require the user to acknowledge before proceeding to the home screen.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-transaction-capture-via-manual-input-paste-import-text-and-offline-parsing-logic-to-detect-credit-transactions-and-extract-amount-in-inr-sender-name-when-available-date-time-when-available-and-source-label-e-g-gpay-phonepe-paytm-amazon-pay-bank-sms-based-on-heuristics-store-parsed-transactions-locally-in-the-app-state",
+      "title": "Implement transaction capture via manual input (paste/import text) and offline parsing logic to detect *credit* transactions and extract: amount in INR, sender name (when available), date/time (when available), and source label (e.g., “GPay”, “PhonePe”, “Paytm”, “Amazon Pay”, “Bank SMS”) based on heuristics; store parsed transactions locally in the app state.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-voice-announcement-using-browser-native-text-to-speech-speechsynthesis-when-a-new-credit-transaction-is-added-and-voice-is-on-with-an-english-announcement-like-money-credited-rupees-200-received-in-your-account-provide-a-way-to-test-the-voice-output-from-the-ui",
+      "title": "Implement voice announcement using browser-native Text-To-Speech (SpeechSynthesis) when a new credit transaction is added and Voice is ON, with an English announcement like: “Money credited. Rupees 200 received in your account.” Provide a way to test the voice output from the UI.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-buy-me-a-coffee-button-at-the-bottom-of-the-home-screen-that-opens-a-upi-payment-intent-url-using-the-provided-upi-id-taranseetharaman273-oksbi",
+      "title": "Add a “Buy Me a Coffee ☕” button at the bottom of the home screen that opens a UPI payment intent URL using the provided UPI ID: taranseetharaman273@oksbi.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-clean-visual-theme-not-blue-purple-and-apply-it-consistently-across-the-app-layout-spacing-typography-component-styling-while-keeping-the-ui-minimal-and-modern",
+      "title": "Create a coherent, clean visual theme (not blue/purple) and apply it consistently across the app (layout, spacing, typography, component styling) while keeping the UI minimal and modern.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Detect incoming credit transactions from SMS and UPI app notifications (GPay/PhonePe/Paytm/Amazon Pay + bank SMS) and extract amount, sender, datetime, and source app.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Voice announcement via Android Text-To-Speech for credited money; must work even when screen is off; toggleable on/off.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Simple modern UI: total received today, last 5 transactions list, big voice ON/OFF toggle, dark mode, large fonts.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Notification listener + duplicate prevention between SMS and notifications; filter only successful credit messages.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "“Buy Me a Coffee ☕” button that opens a UPI intent to taranseetharaman273@oksbi; no ads or forced login.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Privacy & safety: all processing offline, no server upload; permission explanation screen before requesting SMS/notification access.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Technical constraints: Android-only, free libraries only, Android 10+, battery-optimized background service, no Firebase/paid APIs.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Provide deliverables: app structure, logic flow, permission handling approach, sample regex for ₹ amount detection, and UI layout description.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Voice UPI Alert",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
